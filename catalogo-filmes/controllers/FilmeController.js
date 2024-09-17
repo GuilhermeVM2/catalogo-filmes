@@ -41,3 +41,19 @@ export const comentarFilme = async (req, res) => {
         res.status(500).json({ mensagem: 'Erro ao comentar' });
     }
 };
+
+// Adicionando o controlador para avaliar o filme
+export const avaliarFilme = async (req, res) => {
+    const { id } = req.query;
+    const { nota } = req.body;
+    await connectMongo();
+    try {
+        const filme = await Filme.findById(id);
+        if (!filme) return res.status(404).json({ mensagem: 'Filme não encontrado' });
+        filme.avaliacoes.push(nota);
+        await filme.save();
+        res.status(200).json({ filme });
+    } catch (erro) {
+        res.status(500).json({ mensagem: 'Erro ao avaliar o filme' });
+    }
+};

@@ -1,5 +1,3 @@
-import { jwtMiddleware } from "@/utils/middleware";
-import { listarFilmes, adicionarFilme, comentarFilme } from "@/controllers/FilmeController";
 import Filme from '@/models/Filme'; // Ajuste o caminho conforme necessário
 import connectMongo from '@/utils/dbConnect'; // Ajuste o caminho conforme necessário
 
@@ -39,6 +37,7 @@ export async function POST(request) {
       titulo,
       descricao,
       comentarios,
+      avaliacoes: [], // Inicializa o array de avaliações
     });
 
     await novoFilme.save(); // Salvar o novo filme no banco de dados
@@ -51,6 +50,51 @@ export async function POST(request) {
     console.error('Erro ao criar filme:', error);
     return new Response(
       JSON.stringify({ message: 'Erro ao criar filme' }),
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(request) {
+  try {
+    await connectMongo(); // Conectar ao MongoDB
+
+    const { id, avaliacao } = await request.json(); // Recebe o ID do filme e a nova avaliação individual
+
+    if (!id || !avaliacao) {
+      return new Response(
+        JSON.stringify({ message: 'ID do filme e avaliação são obrigatórios' }),
+        { status: 400 }
+      );
+    }
+
+    // Buscar o filme pelo ID
+    const filme = await Filme.findById(id);
+
+    if (!filme) {
+      return new Response(
+        JSON.stringify({ message: 'Filme não encontrado' }),
+        { status: 404 }
+      );
+    }
+
+    // Adicionar a nova avaliação ao array de avaliações
+    filme.avaliacoes.push(avaliacao);
+
+    // Salvar as alterações no banco de dados
+    await filme.save();
+
+    return new Response(
+      JSON.stringify({ message: 'Avaliação adicionada com sucesso', filme }),
+      {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+  } catch (error) {
+    console.error('Erro ao adicionar avaliação:', error);
+    return new Response(
+      JSON.stringify({ message: 'Erro ao adicionar avaliação' }),
       { status: 500 }
     );
   }
