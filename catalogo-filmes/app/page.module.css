@@ -1,0 +1,92 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  background-color: orange;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.searchContainer {
+  display: flex;
+  align-items: center;
+}
+
+.searchContainer input {
+  padding: 5px;
+  margin-right: 10px;
+}
+
+.searchButton {
+  padding: 5px 10px;
+  background-color: white;
+  border: 1px solid gray;
+  cursor: pointer;
+}
+
+.navLinks {
+  display: flex;
+  gap: 15px;
+}
+
+.navLinks a {
+  text-decoration: none;
+  color: white;
+}
+
+.navLinks a:hover {
+  text-decoration: underline;
+}
+
+.mainContent {
+  flex: 1;
+  background-color: white;
+  padding: 20px;
+}
+
+.movieList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.movieItem {
+  display: flex;
+  gap: 10px;
+}
+
+.movieDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer {
+  background-color: gray;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.footerLogo {
+  display: flex;
+  align-items: center;
+}
+
+.footerSlogan {
+  text-align: center;
+}
+
+
